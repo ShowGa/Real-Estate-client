@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute.js";
 import { haha } from "./controller/userController.js";
+import authRouter from "./routes/authRoute.js";
 
 dotenv.config();
 
@@ -18,7 +19,10 @@ mongoose
   });
 
 // Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/server/user", userRouter);
+app.use("/server/auth", authRouter);
 
 app.get("/", haha);
 
