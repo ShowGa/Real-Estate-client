@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import userRouter from "./routes/userRoute.js";
+import { haha } from "./controller/userController.js";
 
 dotenv.config();
 
@@ -15,9 +17,10 @@ mongoose
     console.log(e);
   });
 
-app.get("/", (req, res) => {
-  res.send("HelloW Bish !");
-});
+// Middleware
+app.use("/server/user", userRouter);
+
+app.get("/", haha);
 
 app.listen(8080, () => {
   console.log("Server listening to Port 3000");
