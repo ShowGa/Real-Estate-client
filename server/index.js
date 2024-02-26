@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRouter from "./routes/userRoute.js";
 import { haha } from "./controller/userController.js";
 import authRouter from "./routes/authRoute.js";
@@ -19,6 +20,7 @@ mongoose
   });
 
 /*-------------Middleware------------*/
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Router middleware
@@ -37,5 +39,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(8080, () => {
-  console.log("Server listening to Port 3000");
+  console.log("Server listening to Port 8080");
 });
