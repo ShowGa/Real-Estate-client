@@ -1,7 +1,8 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+import { errorHandler } from "../utils/error.js";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
   const newUser = new User({ username, email, password: hashedPassword });
@@ -12,7 +13,7 @@ export const signup = async (req, res) => {
       saveResult,
     });
   } catch (e) {
-    res.status(500).json(e.message);
-    console.log(e);
+    console.log("authCon signup catch error !");
+    next(e);
   }
 };

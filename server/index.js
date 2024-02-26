@@ -18,13 +18,23 @@ mongoose
     console.log(e);
   });
 
-// Middleware
+/*-------------Middleware------------*/
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Router middleware
 app.use("/server/user", userRouter);
 app.use("/server/auth", authRouter);
-
-app.get("/", haha);
+// error dealer middleware
+app.use((err, req, res, next) => {
+  console.log("Inside error dealing middleware !");
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
 
 app.listen(8080, () => {
   console.log("Server listening to Port 3000");
