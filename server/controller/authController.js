@@ -36,6 +36,7 @@ export const signin = async (req, res, next) => {
     // Save in the cookie
     return res.cookie("access_token", token, { httpOnly: true }).json(rest);
   } catch (e) {
-    console.log(e);
+    console.log("authCon signup catch error !");
+    next(e);
   }
 };
