@@ -34,7 +34,10 @@ export const signin = async (req, res, next) => {
     // I don't know what is this
     const { password: PS, ...rest } = validUser._doc;
     // Save in the cookie
-    return res.cookie("access_token", token, { httpOnly: true }).json(rest);
+    return res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(rest);
   } catch (e) {
     console.log("authCon signup catch error !");
     next(e);

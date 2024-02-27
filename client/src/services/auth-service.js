@@ -8,7 +8,9 @@ class AuthService {
   }
 
   signIn(formData) {
-    return axios.post(API_URL + "/server/auth/signin", formData);
+    return axios.post(API_URL + "/server/auth/signin", formData, {
+      withCredentials: true,
+    });
   }
 }
 
