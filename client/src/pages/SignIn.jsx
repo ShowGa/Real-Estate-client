@@ -8,6 +8,7 @@ import {
   signInSuccess,
   siginInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth.jsx";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -29,7 +30,6 @@ const SignIn = () => {
     // axios post for sign in
     AuthService.signIn(formData)
       .then((res) => {
-        console.log(res);
         dispatch(signInSuccess(res.data));
         alert(`Welcome ! ${res.data.username} ( . )( . )`);
         navigate("/");
@@ -65,6 +65,7 @@ const SignIn = () => {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Don't have an Account ?</p>

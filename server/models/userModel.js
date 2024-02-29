@@ -16,6 +16,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      default: "/img/trollFace.png",
+    },
   },
   { timestamps: true }
 );

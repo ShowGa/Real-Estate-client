@@ -31,7 +31,7 @@ export const signin = async (req, res, next) => {
 
     // Sign website token
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
-    // I don't know what is this
+    // destructure the object ?
     const { password: PS, ...rest } = validUser._doc;
     // Save in the cookie
     return res
@@ -40,6 +40,41 @@ export const signin = async (req, res, next) => {
       .json(rest);
   } catch (e) {
     console.log("authCon signup catch error !");
+    next(e);
+  }
+};
+
+export const signinGoogle = async (req, res, next) => {
+  try {
+    const { username, email, photoURL } = req.body;
+    const user = await User.findOne({ email });
+    // Check if the User is exit
+    if (user) {
+      const token = jwt.sign({ id: username }, process.env.JWT_SECRET);
+      const { password: ps, ...rest } = user._doc;
+      return res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
+    } else {
+      // A - Z , 0 - 9 , last 8 digits
+      const generatedPassword = Math.random().toString(36).slice(-8);
+      const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        photoURL,
+      });
+      await newUser.save();
+      const token = jwt.sign({ id: username }, process.env.JWT_SECRET);
+      const { password: ps, ...rest } = newUser._doc;
+      return res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
+    }
+  } catch (e) {
     next(e);
   }
 };

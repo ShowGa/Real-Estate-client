@@ -12,6 +12,12 @@ class AuthService {
       withCredentials: true,
     });
   }
+
+  signInOAuth(data) {
+    return axios.post(API_URL + "/server/auth/google", data, {
+      withCredentials: true,
+    });
+  }
 }
 
 export default new AuthService();
