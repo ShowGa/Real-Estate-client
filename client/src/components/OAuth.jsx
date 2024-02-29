@@ -19,13 +19,12 @@ const OAuth = () => {
       const postData = {
         username: result.user.displayName,
         email: result.user.email,
-        photo: result.user.photoURL,
+        photoURL: result.user.photoURL,
       };
 
       authService
         .signInOAuth(postData)
         .then((res) => {
-          console.log(res);
           dispatch(signInSuccess(res.data));
           navigate("/");
         })

@@ -64,7 +64,7 @@ export const signinGoogle = async (req, res, next) => {
         username,
         email,
         password: hashedPassword,
-        photoURL,
+        avatar: photoURL,
       });
       await newUser.save();
       const token = jwt.sign({ id: username }, process.env.JWT_SECRET);
