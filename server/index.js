@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import userRouter from "./routes/userRoute.js";
-import { haha } from "./controller/userController.js";
 import authRouter from "./routes/authRoute.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -26,6 +26,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
