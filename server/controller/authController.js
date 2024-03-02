@@ -50,7 +50,7 @@ export const signinGoogle = async (req, res, next) => {
     const user = await User.findOne({ email });
     // Check if the User is exit
     if (user) {
-      const token = jwt.sign({ id: username }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: ps, ...rest } = user._doc;
       return res
         .cookie("access_token", token, { httpOnly: true })
@@ -67,7 +67,7 @@ export const signinGoogle = async (req, res, next) => {
         avatar: photoURL,
       });
       await newUser.save();
-      const token = jwt.sign({ id: username }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: ps, ...rest } = newUser._doc;
       return res
         .cookie("access_token", token, { httpOnly: true })
