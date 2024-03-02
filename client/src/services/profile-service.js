@@ -8,6 +8,12 @@ class ProfileService {
       withCredentials: true,
     });
   }
+
+  deleteProfile(id) {
+    return axios.delete(API_URL + `/server/user/delete/${id}`, {
+      withCredentials: true,
+    });
+  }
 }
 
 export default new ProfileService();

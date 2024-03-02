@@ -12,7 +12,11 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailed,
+  deleteUserFailed,
+  deleteUserStart,
+  deleteUserSuccess,
 } from "../redux/user/userSlice.js";
+import DeleteModal from "../components/DeleteModal.jsx";
 
 const Profile = () => {
   const fileRef = useRef(null);
@@ -22,6 +26,7 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -70,6 +75,22 @@ const Profile = () => {
         dispatch(updateUserSuccess(res.data));
       })
       .catch((e) => {
+        dispatch(updateUserFailed(e.response.data.message));
+      });
+  };
+  const handleDelete = () => {
+    dispatch(deleteUserStart());
+    ProfileService.deleteProfile(currentUser._id)
+      .then((res) => {
+        if (res.success === false) {
+          dispatch(deleteUserFailed(res.message));
+          return;
+        }
+        dispatch(deleteUserSuccess(res.data));
+        alert("Your account has been deleted !");
+      })
+      .catch((e) => {
+        console.log(e);
         dispatch(updateUserFailed(e.response.data.message));
       });
   };
@@ -148,10 +169,15 @@ const Profile = () => {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer font-semibold">
+        <span
+          onClick={() => {
+            setDeleteModal(true);
+          }}
+          className="text-red-700 border-red-700 border-b border-opacity-0 cursor-pointer font-semibold transition duration-200 hover:border-opacity-100"
+        >
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer font-semibold">
+        <span className="text-red-700 border-red-700 border-b border-opacity-0 cursor-pointer font-semibold transition duration-200 hover:border-opacity-100">
           Sign Out
         </span>
       </div>
@@ -159,6 +185,14 @@ const Profile = () => {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "Updated successfully !" : ""}
       </p>
+      {deleteModal && (
+        <DeleteModal
+          handleDelete={handleDelete}
+          onClose={() => {
+            setDeleteModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

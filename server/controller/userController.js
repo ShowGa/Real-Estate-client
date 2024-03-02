@@ -31,7 +31,27 @@ export const updateUser = async (req, res, next) => {
     // To not send the password
     const { password: ps, ...rest } = updatedUser._doc;
     // res
-    res.status(200).json(rest);
+    return res.status(200).json(rest);
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  if (req.user.id !== req.params.id) {
+    return next(
+      errorHandler(
+        (401, "Sneaky Peaky want to delete other person's account !")
+      )
+    );
+  }
+
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    return res
+      .status(200)
+      .clearCookie("access_token")
+      .json("Your account had been deleted !");
   } catch (e) {
     next(e);
   }
