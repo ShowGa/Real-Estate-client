@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import ProfileService from "../services/profile-service.js";
+import AuthService from "../services/auth-service.js";
 import {
   updateUserStart,
   updateUserSuccess,
@@ -15,6 +16,9 @@ import {
   deleteUserFailed,
   deleteUserStart,
   deleteUserSuccess,
+  signOutUserStart,
+  signOutUserFailed,
+  signOutUserSuccess,
 } from "../redux/user/userSlice.js";
 import DeleteModal from "../components/DeleteModal.jsx";
 
@@ -86,12 +90,27 @@ const Profile = () => {
           dispatch(deleteUserFailed(res.message));
           return;
         }
-        dispatch(deleteUserSuccess(res.data));
+        dispatch(deleteUserSuccess());
         alert("Your account has been deleted !");
       })
       .catch((e) => {
         console.log(e);
         dispatch(updateUserFailed(e.response.data.message));
+      });
+  };
+  const handleSignOut = () => {
+    dispatch(signOutUserStart());
+    AuthService.signOut()
+      .then((res) => {
+        if (res.success === false) {
+          dispatch(signOutUserFailed(res.message));
+          return;
+        }
+        dispatch(signOutUserSuccess());
+        alert("You just sign out the account !");
+      })
+      .catch((e) => {
+        dispatch(signOutUserFailed(e.response.data.message));
       });
   };
 
@@ -177,7 +196,10 @@ const Profile = () => {
         >
           Delete Account
         </span>
-        <span className="text-red-700 border-red-700 border-b border-opacity-0 cursor-pointer font-semibold transition duration-200 hover:border-opacity-100">
+        <span
+          onClick={handleSignOut}
+          className="text-red-700 border-red-700 border-b border-opacity-0 cursor-pointer font-semibold transition duration-200 hover:border-opacity-100"
+        >
           Sign Out
         </span>
       </div>

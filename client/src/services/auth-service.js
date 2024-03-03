@@ -18,6 +18,10 @@ class AuthService {
       withCredentials: true,
     });
   }
+
+  signOut() {
+    return axios.get(API_URL + "/server/auth/signout");
+  }
 }
 
 export default new AuthService();
