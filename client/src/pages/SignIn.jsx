@@ -36,7 +36,7 @@ const SignIn = () => {
       })
       .catch((e) => {
         console.log(e.response.data);
-        dispatch(siginInFailure(e.response.data));
+        dispatch(siginInFailure(e.response.data.message));
       });
   };
 

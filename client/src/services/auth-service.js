@@ -20,7 +20,9 @@ class AuthService {
   }
 
   signOut() {
-    return axios.get(API_URL + "/server/auth/signout");
+    return axios.get(API_URL + "/server/auth/signout", {
+      withCredentials: true,
+    });
   }
 }
 
