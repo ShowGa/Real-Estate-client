@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
+import listingRouter from "./routes/listingRoute.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 // Router middleware
 app.use("/server/user", userRouter);
 app.use("/server/auth", authRouter);
+app.use("/server/listing", listingRouter);
 // error dealer middleware
 app.use((err, req, res, next) => {
   console.log("Inside error dealing middleware !");
