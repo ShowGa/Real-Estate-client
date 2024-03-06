@@ -22,6 +22,8 @@ import {
   signOutUserSuccess,
 } from "../redux/user/userSlice.js";
 import DeleteModal from "../components/DeleteModal.jsx";
+import ListingService from "../services/listing-service.js";
+import { current } from "@reduxjs/toolkit";
 
 const Profile = () => {
   const fileRef = useRef(null);
@@ -32,6 +34,8 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -96,7 +100,6 @@ const Profile = () => {
         alert("Your account has been deleted !");
       })
       .catch((e) => {
-        console.log(e);
         dispatch(updateUserFailed(e.response.data.message));
       });
   };
@@ -113,6 +116,20 @@ const Profile = () => {
       })
       .catch((e) => {
         dispatch(signOutUserFailed(e.response.data.message));
+      });
+  };
+  const handleShowListing = () => {
+    ListingService.showListing(currentUser._id)
+      .then((res) => {
+        setShowListingError(false);
+        if (res.success === false) {
+          setShowListingError(true);
+          return;
+        }
+        setUserListings(res.data);
+      })
+      .catch((e) => {
+        setShowListingError(true);
       });
   };
 
@@ -222,6 +239,41 @@ const Profile = () => {
             setDeleteModal(false);
           }}
         />
+      )}
+      <button onClick={handleShowListing} className="text-green-700  w-full">
+        Show Listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingError ? "Ops ! Error occurred when showing listing" : ""}
+      </p>
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold"></h1>
+          {userListings.map((listing) => {
+            return (
+              <div
+                key={listing._id}
+                className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              >
+                <Link to={`/listing/${listing._id}`}>
+                  <img
+                    src={listing.imageURL[0]}
+                    className="h-16 w-16 object-contain"
+                  />
+                </Link>
+                <Link className="flex-1" to={listing._id}>
+                  <p className="text-slate-700 font-semibold hover:underline truncate">
+                    {listing.name}
+                  </p>
+                </Link>
+                <div className="flex flex-col items-center">
+                  <button className="text-red-700 uppercase">Delete</button>
+                  <button className="text-green-700 uppercase">Edit</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );

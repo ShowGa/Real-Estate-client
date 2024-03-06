@@ -8,6 +8,12 @@ class ListingService {
       withCredentials: true,
     });
   }
+
+  showListing(id) {
+    return axios.get(API_URL + `/server/listing/listings/${id}`, {
+      withCredentials: true,
+    });
+  }
 }
 
 export default new ListingService();
