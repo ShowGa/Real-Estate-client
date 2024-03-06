@@ -132,6 +132,24 @@ const Profile = () => {
         setShowListingError(true);
       });
   };
+  const handleListingDelete = (id) => {
+    ListingService.deleteListing(id)
+      .then((res) => {
+        if (res.success === false) {
+          console.log(res.message);
+          return;
+        }
+        setUserListings((prev) => {
+          return prev.filter((listing) => {
+            return listing._id !== id;
+          });
+        });
+        alert("You just delete a listing !");
+      })
+      .catch((e) => {
+        console.log(e.response.data.message);
+      });
+  };
 
   useEffect(() => {
     if (file) {
@@ -266,7 +284,12 @@ const Profile = () => {
                     {listing.name}
                   </p>
                 </Link>
-                <div className="flex flex-col items-center">
+                <div
+                  onClick={() => {
+                    handleListingDelete(listing._id);
+                  }}
+                  className="flex flex-col items-center"
+                >
                   <button className="text-red-700 uppercase">Delete</button>
                   <button className="text-green-700 uppercase">Edit</button>
                 </div>

@@ -23,3 +23,23 @@ export const getUserListing = async (req, res, next) => {
     next(e);
   }
 };
+
+export const deleteListing = async (req, res, next) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  // check listing existing
+  if (!listing) {
+    return next(errorHandler(404, "Listing not found !"));
+  }
+
+  if (listing.userRef !== req.user.id) {
+    return next(errorHandler(403, "Don't you dare to do this !"));
+  }
+
+  try {
+    await Listing.findByIdAndDelete(id);
+    res.status(200).json("You just delete a listing !");
+  } catch (e) {
+    next(e);
+  }
+};
