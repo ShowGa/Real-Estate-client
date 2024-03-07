@@ -258,7 +258,10 @@ const Profile = () => {
           }}
         />
       )}
-      <button onClick={handleShowListing} className="text-green-700  w-full">
+      <button
+        onClick={handleShowListing}
+        className="text-green-700 w-full p-1 border border-green-700 hover:text-white hover:bg-green-700 transition-all duration-200"
+      >
         Show Listings
       </button>
       <p className="text-red-700 mt-5">
@@ -284,14 +287,20 @@ const Profile = () => {
                     {listing.name}
                   </p>
                 </Link>
-                <div
-                  onClick={() => {
-                    handleListingDelete(listing._id);
-                  }}
-                  className="flex flex-col items-center"
-                >
-                  <button className="text-red-700 uppercase">Delete</button>
-                  <button className="text-green-700 uppercase">Edit</button>
+                <div className="flex flex-col items-center">
+                  <button
+                    onClick={() => {
+                      handleListingDelete(listing._id);
+                    }}
+                    className="text-red-700 uppercase border-opacity-0 border-b border-b-red-700 hover:border-opacity-100 transition-all duration-200"
+                  >
+                    Delete
+                  </button>
+                  <Link to={`/update-listing/${listing._id}`}>
+                    <button className="text-green-700 uppercase border-opacity-0 border-b border-b-green-700 hover:border-opacity-100 transition-all duration-200">
+                      Edit
+                    </button>
+                  </Link>
                 </div>
               </div>
             );

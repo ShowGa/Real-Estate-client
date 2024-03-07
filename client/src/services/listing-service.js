@@ -21,6 +21,17 @@ class ListingService {
       withCredentials: true,
     });
   }
+
+  updateListing(formData, id) {
+    return axios.patch(API_URL + `/server/listing/update/${id}`, formData, {
+      withCredentials: true,
+    });
+  }
+
+  // this id is Listing _id, no need to verify , everyone can get.
+  getListing(id) {
+    return axios.get(API_URL + `/server/listing/get/${id}`);
+  }
 }
 
 export default new ListingService();
