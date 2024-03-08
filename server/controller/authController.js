@@ -34,8 +34,12 @@ export const signin = async (req, res, next) => {
     // destructure the object ?
     const { password: PS, ...rest } = validUser._doc;
     // Save in the cookie
+    const oneYearInSeconds = 365 * 24 * 60 * 60;
     return res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        maxAge: oneYearInSeconds * 1000,
+      })
       .status(200)
       .json(rest);
   } catch (e) {
