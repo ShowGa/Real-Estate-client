@@ -83,3 +83,54 @@ export const getListing = async (req, res, next) => {
     next(e);
   }
 };
+
+export const getListings = async (req, res, next) => {
+  try {
+    // Showing listings limit amount
+    const limit = parseInt(req.query.limit) || 9;
+    // Start from
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    // check checkbox -> set the default search option
+    let { offer, furnished, parking, type } = req.query;
+    // check offer
+    if (offer === undefined || offer === "false") {
+      offer = { $in: [false, true] };
+    }
+    // check furnished
+    if (furnished === undefined || furnished === "false") {
+      furnished = { $in: [false, true] };
+    }
+    // check parking
+    if (parking === undefined || parking === "false") {
+      parking = { $in: [false, true] };
+    }
+    // check type
+    if (type === undefined || type === "all") {
+      type = { $in: ["sale", "rent"] };
+    }
+    // search bar
+    const searchTerm = req.query.searchTerm || "";
+    // sort
+    const sort = req.query.sort || "createdAt";
+    // order
+    const order = req.query.order || "desc";
+
+    const listings = await Listing.find({
+      name: {
+        $regex: searchTerm,
+        $options: "i",
+      },
+      offer,
+      furnished,
+      parking,
+      type,
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+
+    return res.status(200).json(listings);
+  } catch (e) {
+    next(e);
+  }
+};

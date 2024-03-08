@@ -5,6 +5,7 @@ import {
   deleteListing,
   updateListing,
   getListing,
+  getListings,
 } from "../controller/listingController.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -21,5 +22,8 @@ router.patch("/update/:id", verifyToken, updateListing);
 
 // this id is Listing _id, no need to verify , everyone can get.
 router.get("/get/:id", getListing);
+
+// Search bar Route
+router.get("/get", getListings);
 
 export default router;
