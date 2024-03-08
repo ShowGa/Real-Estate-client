@@ -23,7 +23,6 @@ import {
 } from "../redux/user/userSlice.js";
 import DeleteModal from "../components/DeleteModal.jsx";
 import ListingService from "../services/listing-service.js";
-import { current } from "@reduxjs/toolkit";
 
 const Profile = () => {
   const fileRef = useRef(null);

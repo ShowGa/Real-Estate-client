@@ -56,3 +56,19 @@ export const deleteUser = async (req, res, next) => {
     next(e);
   }
 };
+
+export const getUser = async (req, res, next) => {
+  try {
+    // This id comes from client side listing userRef to get the landlord information in order to contact landlord .
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      next(errorHandler(404, "User not found"));
+    }
+    // destructure the information (exclude password)
+    const { password: ps, ...rest } = user._doc;
+    return res.status(200).json(rest);
+  } catch (e) {
+    next(e);
+  }
+};
