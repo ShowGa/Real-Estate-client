@@ -9,6 +9,7 @@ class ListingService {
     });
   }
 
+  // Show personal listings in profiles
   showListing(id) {
     return axios.get(API_URL + `/server/listing/listings/${id}`, {
       withCredentials: true,
@@ -28,9 +29,14 @@ class ListingService {
     });
   }
 
-  // this id is Listing _id, no need to verify , everyone can get.
+  // get specified listing . This id is Listing _id, no need to verify , everyone can get.
   getListing(id) {
     return axios.get(API_URL + `/server/listing/get/${id}`);
+  }
+
+  // get litstings with query
+  getListings(searchQuery) {
+    return axios.get(API_URL + `/server/listing/get?${searchQuery}`);
   }
 }
 

@@ -7,3 +7,6 @@ const newobj = {
 };
 
 console.log(newobj);
+
+const a = "";
+// console.log(a);
