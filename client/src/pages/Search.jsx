@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ListingService from "../services/listing-service";
 import ListingItem from "../components/ListingItem";
+import { FaCirclePlus } from "react-icons/fa6";
+import { CgSearchLoading } from "react-icons/cg";
 
 const Search = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showMoreLoading, setShowMoreLoading] = useState(false);
   const [listings, setListings] = useState([]);
+  const [showMore, setShowmore] = useState(false);
   const [searchData, setSearchData] = useState({
     searchTerm: "",
     type: "all",
@@ -16,6 +20,7 @@ const Search = () => {
     sort: "created_at",
     order: "desc",
   });
+  console.log(searchData);
 
   const handleChange = (e) => {
     // check searchTerm
@@ -74,6 +79,24 @@ const Search = () => {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
+  const handleShowMore = () => {
+    const startIndex = listings.length;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    setShowMoreLoading(true);
+    ListingService.getListings(searchQuery)
+      .then((res) => {
+        if (res.data.length < 9) {
+          setShowmore(false);
+        }
+        setListings([...listings, ...res.data]);
+        setShowMoreLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -110,7 +133,12 @@ const Search = () => {
     setLoading(true);
     ListingService.getListings(searchQuery)
       .then((res) => {
-        console.log("Operating axios");
+        console.log(res.data);
+        if (res.data.length >= 9) {
+          setShowmore(true);
+        } else {
+          setShowmore(false);
+        }
         setListings(res.data);
         setLoading(false);
       })
@@ -122,7 +150,7 @@ const Search = () => {
 
   return (
     <main className="flex flex-col md:flex-row">
-      <section className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
+      <section className="p-7 border-b-2 md:border-r-2 md:min-h-screen flex-shrink-0">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
@@ -215,8 +243,8 @@ const Search = () => {
             >
               <option value="regularPrice_desc">Price high to low</option>
               <option value="regularPrice_asc">Price low to high</option>
-              <option value="createAt_desc">Latest</option>
-              <option value="createAt_asc">Oldest</option>
+              <option value="createdAt_desc">Latest</option>
+              <option value="createdAt_asc">Oldest</option>
             </select>
           </div>
           <button
@@ -244,6 +272,18 @@ const Search = () => {
             listings.map((listing) => {
               return <ListingItem key={listing._id} listing={listing} />;
             })}
+        </div>
+        <div className="mb-3 ml-7 text-center">
+          {!loading && showMore ? (
+            <button
+              className="text-green-600 text-4xl hover:underline hover:opacity-85 active:text-green-800"
+              onClick={handleShowMore}
+            >
+              {showMoreLoading ? <CgSearchLoading /> : <FaCirclePlus />}
+            </button>
+          ) : (
+            <p className="font-bold">Nothing More...</p>
+          )}
         </div>
       </section>
     </main>

@@ -29,8 +29,18 @@ const Listing = () => {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  console.log(windowWidth);
+
+  // function
+  const handleWindowWidth = () => {
+    setWindowWidth(window.innerWidth);
+  };
 
   useEffect(() => {
+    // addEventListener to the window resize
+    window.addEventListener("resize", handleWindowWidth);
+
     ListingService.getListing(params.listingId)
       .then((res) => {
         setLoading(false);
@@ -45,6 +55,10 @@ const Listing = () => {
         setError(true);
         setLoading(false);
       });
+
+    return () => {
+      window.removeEventListener("resize", handleWindowWidth);
+    };
   }, []);
 
   return (
@@ -62,10 +76,10 @@ const Listing = () => {
               return (
                 <SwiperSlide key={url}>
                   <div
-                    className="h-[300px]"
                     style={{
                       background: `url(${url}) center no-repeat`,
-                      backgroundSize: "contain",
+                      backgroundSize: "cover",
+                      height: `${Math.floor(windowWidth * 0.4)}px`,
                     }}
                   ></div>
                 </SwiperSlide>
