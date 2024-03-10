@@ -260,12 +260,12 @@ const Search = () => {
           Listing results :
         </h1>
         <div className="flex flex-wrap gap-4 p-7">
-          {loading && listings.length === 0 && (
+          {!loading && listings.length === 0 && (
             <p className="text-xl text-slate-700">No Listing Found !</p>
           )}
           {loading && (
-            <p className="text-xl text-slate-700 text-center w-full">
-              Loadin...
+            <p className="text-xl text-slate-700 text-center w-full font-bold">
+              Loading...
             </p>
           )}
           {!loading &&
@@ -273,16 +273,20 @@ const Search = () => {
               return <ListingItem key={listing._id} listing={listing} />;
             })}
         </div>
-        <div className="mb-3 ml-7 text-center">
-          {!loading && showMore ? (
-            <button
-              className="text-green-600 text-4xl hover:underline hover:opacity-85 active:text-green-800"
-              onClick={handleShowMore}
-            >
-              {showMoreLoading ? <CgSearchLoading /> : <FaCirclePlus />}
-            </button>
+        <div className="mb-3 ml-7">
+          {!loading ? (
+            showMore ? (
+              <button
+                className="text-green-600 text-4xl hover:underline hover:opacity-85 active:text-green-800"
+                onClick={handleShowMore}
+              >
+                {showMoreLoading ? <CgSearchLoading /> : <FaCirclePlus />}
+              </button>
+            ) : (
+              <p className="font-bold">Nothing More...</p>
+            )
           ) : (
-            <p className="font-bold">Nothing More...</p>
+            ""
           )}
         </div>
       </section>

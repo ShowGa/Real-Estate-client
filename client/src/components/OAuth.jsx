@@ -3,7 +3,7 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import authService from "../services/auth-service";
 import { useDispatch } from "react-redux";
-import { signInSuccess } from "../redux/user/userSlice";
+import { siginInFailure, signInSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const OAuth = () => {
@@ -29,9 +29,11 @@ const OAuth = () => {
           navigate("/");
         })
         .catch((e) => {
+          dispatch(siginInFailure(e.message || e.response.data.message));
           console.log(e);
         });
     } catch (e) {
+      dispatch(siginInFailure(e.message || e.response.data.message));
       console.log("Error when OAuth", e);
     }
   };

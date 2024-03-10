@@ -84,7 +84,7 @@ const Profile = () => {
         setUpdateSuccess(true);
       })
       .catch((e) => {
-        dispatch(updateUserFailed(e.response.data.message));
+        dispatch(updateUserFailed(e.response.data.message || e.message));
       });
   };
   const handleDelete = () => {
