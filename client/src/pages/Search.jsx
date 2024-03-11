@@ -20,7 +20,6 @@ const Search = () => {
     sort: "created_at",
     order: "desc",
   });
-  console.log(searchData);
 
   const handleChange = (e) => {
     // check searchTerm
@@ -133,7 +132,6 @@ const Search = () => {
     setLoading(true);
     ListingService.getListings(searchQuery)
       .then((res) => {
-        console.log(res.data);
         if (res.data.length >= 9) {
           setShowmore(true);
         } else {

@@ -28,9 +28,9 @@ const SignUp = () => {
         navigate("/sign-in");
       })
       .catch((e) => {
-        console.log(e.response.data);
+        console.log(e.response.data.message || e.message);
         setLoading(false);
-        setError(e.response.data.message);
+        setError(e.response.data.message || e.message);
       });
   };
 
