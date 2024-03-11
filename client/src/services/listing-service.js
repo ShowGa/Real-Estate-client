@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://real-estate-r2hs.onrender.com";
 
 class ListingService {
   createListing(formData, id) {
