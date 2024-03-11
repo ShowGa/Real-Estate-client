@@ -6,13 +6,14 @@ import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 import listingRouter from "./routes/listingRoute.js";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 dotenv.config();
-
+const __dirname = path.resolve();
 const app = express();
 
 mongoose
-  .connect("mongodb://127.0.0.1/EstateDB")
+  .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
     console.log("Successfully connect to MongoDB");
   })
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/server/user", userRouter);
 app.use("/server/auth", authRouter);
 app.use("/server/listing", listingRouter);
+app.use(express.static(path.join(__dirname, "/client/dist")));
 // error dealer middleware
 app.use((err, req, res, next) => {
   console.log("Inside error dealing middleware !");
@@ -45,6 +47,10 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
 app.listen(8080, () => {
