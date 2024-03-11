@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../services/auth-service.js";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import {
   siginInFailure,
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth.jsx";
+import ErrorMessage from "../components/ErrorMessage.jsx";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -35,8 +36,8 @@ const SignIn = () => {
         navigate("/");
       })
       .catch((e) => {
-        console.log(e.response.data);
-        dispatch(siginInFailure(e.response.data.message));
+        console.log(e.response.data.message || e.message);
+        dispatch(siginInFailure(e.response.data.message || e.message));
       });
   };
 
@@ -73,7 +74,8 @@ const SignIn = () => {
           <span className="text-blue-700">Sign Up</span>
         </Link>
       </div>
-      <div>{error && <p className="text-red-500 mt-5">{error}</p>}</div>
+      {/* <div>{error && <p className="text-red-500 mt-5">{error}</p>}</div> */}
+      <ErrorMessage />
     </div>
   );
 };

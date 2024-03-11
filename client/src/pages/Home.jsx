@@ -59,7 +59,7 @@ const Home = () => {
   return (
     <div>
       {/* {top} */}
-      <div className="flex flex-col gap-8 py-16 px-16 max-w-6xl">
+      <div className="flex flex-col gap-8 py-16 px-8 max-w-6xl mx-auto items-start">
         <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
           Find Your next <span className="text-slate-500">perfect</span>
           <br />
@@ -68,13 +68,15 @@ const Home = () => {
         <div className="text-gray-400 text-xs sm:text-sm">
           RomaEstate is the best choice for you finding a place to live .
           <br />
-          We had already help over 1 Millon households find their dream place .
+          We had already help over{" "}
+          <span className="font-bold text-pink-400">69</span> Millons households
+          find their dream place .
           <br />
           And it's your turn to be treated by our professional and intimate
           service .
         </div>
         <Link
-          className="text-xs sm:text-sm text-blue-800 font-bold hover:underline"
+          className="text-xs sm:text-sm font-bold text-green-800 p-2 border border-green-800 rounded-full hover:bg-green-800 hover:text-white transition-all duration-200"
           to={"/search"}
         >
           Start searching your dream place
@@ -125,13 +127,13 @@ const Home = () => {
           <div>
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent offers
+                Recent places for sale
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={"/search?offer=true"}
+                to={"/search?type=sale"}
               >
-                Show more offer
+                Show more places for sale
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -145,13 +147,13 @@ const Home = () => {
           <div>
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent offers
+                Recent places for rent
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
-                to={"/search?offer=true"}
+                to={"/search?type=rent"}
               >
-                Show more offer
+                Show more places for rent
               </Link>
             </div>
             <div className="flex flex-wrap gap-4">

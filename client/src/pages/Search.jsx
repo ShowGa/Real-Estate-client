@@ -150,7 +150,7 @@ const Search = () => {
 
   return (
     <main className="flex flex-col md:flex-row">
-      <section className="p-7 border-b-2 md:border-r-2 md:min-h-screen flex-shrink-0">
+      <section className="p-7 border-gray-300 border-b-2 md:border-r-2 md:min-h-screen flex-shrink-0">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
@@ -234,7 +234,7 @@ const Search = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <label>Sort :</label>
+            <label className="font-semibold">Sort :</label>
             <select
               onChange={handleChange}
               defaultValue={"create_at_desc"}
