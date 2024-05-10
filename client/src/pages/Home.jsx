@@ -63,10 +63,10 @@ const Home = () => {
         <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
           Find Your next <span className="text-slate-500">perfect</span>
           <br />
-          place from RomaEstate
+          place from MidasEstate
         </h1>
         <div className="text-gray-400 text-xs sm:text-sm">
-          RomaEstate is the best choice for you finding a place to live .
+          MidasEstate is the best choice for you finding a place to live .
           <br />
           We had already help over{" "}
           <span className="font-bold text-pink-400">69</span> Millons households
