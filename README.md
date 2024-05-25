@@ -46,6 +46,6 @@ Link : <a href="https://real-estate-r2hs.onrender.com" target="_blank">Real-Esta
 - Search bar: The search bar can be used to find properties that match specified tags
 
 ## Appreciation
-This project come from the tutorial taught by <a href="https://github.com/sahandghavidel" target="_blank">Sahand Ghavidel</a>
+This project comes from the tutorial taught by <a href="https://github.com/sahandghavidel" target="_blank">Sahand Ghavidel</a>
 <br>
 Sahand Ghavidel Official Youtube channel : <a href="https://www.youtube.com/@reactproject/videos" target="_blank">LINK</a>
